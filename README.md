@@ -6,7 +6,7 @@ Built using [DocTR](https://github.com/mindee/doctr), a deep learning-based OCR 
 
 ## Live Demo
 
-Experience the app live here: [Your Live App Link](https://your-app-url.streamlit.app)  
+Experience the app live here: [Live App](https://doc-ocr.streamlit.app/)  
 *Note: If the app is inactive, please click the **REBOOT** button to start it.*
 
 ## Features
