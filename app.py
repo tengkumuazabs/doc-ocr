@@ -4,54 +4,56 @@ from doctr.io import DocumentFile
 from doctr.models import ocr_predictor
 import numpy as np
 from PIL import Image
-import io # Import the io module
+import io
+import requests
 
 st.set_page_config(page_title="NIK Extractor", layout="centered")
 
 st.title("🪪 Indonesian NIK Extractor using DocTR")
-st.markdown("Upload an image of an Indonesian ID card (KTP) and this app will extract the NIK (Nomor Induk Kependudukan) using OCR.")
+st.markdown("Upload an image of an Indonesian ID card (KTP) or provide a URL to extract the NIK using OCR.")
 
-# File uploader
-uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+# Two input options: upload or URL
+uploaded_file = st.file_uploader("📁 Upload an image", type=["jpg", "jpeg", "png"])
+url_input = st.text_input("🌐 Or enter image URL")
 
-if uploaded_file is not None:
+image = None
+
+if uploaded_file:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded KTP", use_container_width=True)
 
-    # Convert PIL Image to an in-memory byte stream
-    # This is a more robust way to pass image data to doctr when starting from a PIL Image
+elif url_input:
+    try:
+        response = requests.get(url_input)
+        response.raise_for_status()
+        image = Image.open(io.BytesIO(response.content))
+        st.image(image, caption="Image from URL", use_container_width=True)
+    except Exception as e:
+        st.error(f"❌ Failed to load image from URL: {e}")
+
+if image is not None:
+    # Convert PIL Image to byte array
     img_byte_arr = io.BytesIO()
-    # Save the PIL image to the byte stream in PNG format (or JPEG, depending on preference)
     image.save(img_byte_arr, format='PNG')
-    # Get the bytes from the stream
     img_bytes = img_byte_arr.getvalue()
 
-    # Load OCR model
     with st.spinner("🔍 Running OCR..."):
         model = ocr_predictor(pretrained=True)
-        # Pass the image bytes directly to from_images
-        # doctr can read image files from bytes
         doc = DocumentFile.from_images([img_bytes])
         result = model(doc)
         result_list = result.render().split('\n')
 
-    # Try to extract NIK
+    # Extract NIK
     try:
-        # Find the index of 'NIK' in the OCR result list
         nik_index = result_list.index('NIK')
-        # The NIK value is typically on the next line after 'NIK'
         nik_raw = result_list[nik_index + 1]
     except (ValueError, IndexError):
-        # If 'NIK' is not found or there's no line after it, set nik_raw to None
         nik_raw = None
 
     if nik_raw:
-        # Clean possible OCR mistakes: replace common letter-digit confusions
         nik_fixed = nik_raw.replace('L', '1').replace('O', '0').replace('I', '1')
-        # Filter out non-digit characters to get a clean NIK
         nik_clean = ''.join(filter(str.isdigit, nik_fixed))
 
-        # Check if the cleaned NIK has the correct length (16 digits for Indonesian NIK)
         if len(nik_clean) == 16:
             st.success(f"✅ Extracted NIK: `{nik_clean}`")
         else:
@@ -61,4 +63,3 @@ if uploaded_file is not None:
 
     with st.expander("🔎 Full OCR Result"):
         st.text("\n".join(result_list))
-
