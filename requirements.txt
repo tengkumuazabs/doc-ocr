@@ -1,0 +1,4 @@
+streamlit
+doctr
+numpy
+Pillow
