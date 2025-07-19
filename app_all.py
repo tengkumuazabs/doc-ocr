@@ -9,7 +9,7 @@ import requests
 
 st.set_page_config(page_title="OCR docs Extractor", layout="centered")
 
-tab1, tab2, tab3 = st.tabs(["NIK", "Income", "Birth Certificate"])
+tab1, tab2, tab3, tab4 = st.tabs(["NIK", "Income", "Birth Certificate", "UN Score"])
 
 # Tab for NIK Extraction
 with tab1:
@@ -162,7 +162,7 @@ with tab3:
         with st.expander("🔎 Full OCR Result"):
             st.text(result_text)
 
-               # Information to extract
+        # Information to extract
         birth_cert_number = None
         child_name = None
         dob = None
@@ -208,3 +208,48 @@ with tab3:
 
         if not any([birth_cert_number, child_name, dob, father_name, mother_name]):
             st.warning("Could not extract birth certificate details. Please check the document quality.")
+
+with tab4:
+    st.title("UN Score Extractor")
+    st.markdown("Upload a PDF file containing UN Score scans for OCR extraction.")
+
+    # File uploader: only accept PDF
+    uploaded_file = st.file_uploader("📁 Upload a PDF", type=["pdf"], key="un_score")
+
+    if uploaded_file:
+        st.info("📄 PDF uploaded.")
+
+        with st.spinner("🔍 Running OCR..."):
+            # Load document from uploaded PDF
+            doc = DocumentFile.from_pdf(uploaded_file.read())
+            
+            # Load the OCR model
+            model = ocr_predictor(pretrained=True)
+
+            # Run OCR
+            result = model(doc)
+            result_text = result.render()
+            result_lines = result_text.split('\n')
+
+        # Show OCR Result
+        with st.expander("🔎 Full OCR Result"):
+            st.text(result_text)
+
+        
+        total_score = None
+        average_score = None
+
+        for i, val in enumerate(result_lines):
+            if 'JUMLAH' in val.upper():
+                try:
+                    total_score = float(result_lines[i + 1])
+                except:
+                    pass
+            elif 'RATA-RATA' in val.upper():
+                try:
+                    average_score = float(result_lines[i + 1])
+                except:
+                    pass
+
+        st.success(f"Total Score: `{total_score}`")
+        st.success(f"Average Score: `{average_score}`")
