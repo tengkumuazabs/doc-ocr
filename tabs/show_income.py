@@ -53,3 +53,11 @@ def show_income():
                     st.warning(f"Score : {score}")
         else:
             st.error("❌ Income field not found in OCR result.")
+
+        # Show as JSON
+        st.subheader("🧾 JSON Output")
+        json = {
+            "income_float": income_float,
+            "score": score
+        }
+        st.json(json)

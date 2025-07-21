@@ -55,3 +55,13 @@ def show_birth():
 
         if not any([birth_cert_number, child_name, dob, dob_city]):
             st.warning("Could not extract birth certificate details.")
+
+        # Show as JSON
+        st.subheader("🧾 JSON Output")
+        json = {
+            "birth_cert_number": birth_cert_number,
+            "child_name": child_name,
+            "dob": dob,
+            "dob_city": dob_city,
+        }
+        st.json(json)

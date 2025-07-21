@@ -20,7 +20,8 @@ def show_un():
         with st.expander("🔎 Full OCR Result"):
             st.text(result_text)
 
-        total_score = average_score = None
+        total_score = None
+        average_score = None
 
         for i, val in enumerate(result_lines):
             if 'JUMLAH' in val.upper():
@@ -34,7 +35,17 @@ def show_un():
                 except:
                     pass
 
+        # Display extracted values
+        st.subheader("📊 Extracted Scores")
         if total_score is not None:
             st.success(f"Total Score: `{total_score}`")
         if average_score is not None:
             st.success(f"Average Score: `{average_score}`")
+
+        # Show as JSON
+        st.subheader("🧾 JSON Output")
+        json = {
+            "total_score": total_score,
+            "average_score": average_score,
+        }
+        st.json(json)

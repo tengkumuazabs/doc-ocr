@@ -56,3 +56,10 @@ def show_nik():
 
         with st.expander("🔎 Full OCR Result"):
             st.text("\n".join(result_list))
+
+        # Show as JSON
+        st.subheader("🧾 JSON Output")
+        json = {
+            "nik": nik_clean
+        }
+        st.json(json)
