@@ -5,7 +5,9 @@ from tabs.show_nik import show_nik
 from tabs.show_income import show_income
 from tabs.show_birth import show_birth
 from tabs.show_un import show_un
-from tabs.show_pkh import show_pkh  # Assuming you plan to use this
+from tabs.show_pkh import show_pkh
+from tabs.show_bukti_univ import show_bukti_univ
+from tabs.show_prestasi import show_prestasi
 
 # List of (tab_name, function) pairs
 tab_definitions = [
@@ -13,7 +15,9 @@ tab_definitions = [
     ("Income", show_income),
     ("Birth Certificate", show_birth),
     ("UN Score", show_un),
-    ("PKH", show_pkh)
+    ("PKH", show_pkh),
+    ("Bukti Penerimaan", show_bukti_univ),
+    ("Bukti Prestasi", show_prestasi)
 ]
 
 # Create tabs dynamically
