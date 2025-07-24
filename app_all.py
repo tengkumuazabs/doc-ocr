@@ -8,6 +8,7 @@ from tabs.show_un import show_un
 from tabs.show_pkh import show_pkh
 from tabs.show_bukti_univ import show_bukti_univ
 from tabs.show_prestasi import show_prestasi
+from tabs.show_tabungan import show_tabungan
 
 # List of (tab_name, function) pairs
 tab_definitions = [
@@ -17,7 +18,8 @@ tab_definitions = [
     ("UN Score", show_un),
     ("PKH", show_pkh),
     ("Bukti Penerimaan", show_bukti_univ),
-    ("Bukti Prestasi", show_prestasi)
+    ("Bukti Prestasi", show_prestasi),
+    ("Bukti Tabungan", show_tabungan)
 ]
 
 # Create tabs dynamically
