@@ -61,9 +61,8 @@ if image is not None:
         nik_clean = ''.join(filter(str.isdigit, nik_fixed))
 
         if len(nik_clean) == 16:
-            st.success(f"✅ Extracted NIK: `{nik_clean}`")
-        else:
-            st.warning(f"⚠️ NIK length is invalid after cleaning: `{nik_clean}` (Expected 16 digits)")
+            st.success("✅ NIK detected! You can edit if needed:")
+            nik_value = st.text_input("NIK", value=nik_clean, key="nik_input")
     else:
         st.error("❌ NIK field not found in OCR result.")
 
