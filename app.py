@@ -21,7 +21,7 @@ st.markdown("Upload an image of an Indonesian ID card (KTP) or provide a URL to 
 
 # Two input options: upload or URL
 uploaded_file = st.file_uploader("📁 Upload an image", type=["jpg", "jpeg", "png"])
-url_input = st.text_input("🌐 Or enter image URL")
+# url_input = st.text_input("🌐 Or enter image URL")
 
 image = None
 
