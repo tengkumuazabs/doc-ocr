@@ -9,6 +9,13 @@ import requests
 
 st.set_page_config(page_title="NIK Extractor", layout="centered")
 
+@st.cache_resource
+def load_model():
+    return ocr_predictor(pretrained=True)
+
+# Load once, reuse everywhere
+model = load_model()
+
 st.title("🪪 Indonesian NIK Extractor using DocTR")
 st.markdown("Upload an image of an Indonesian ID card (KTP) or provide a URL to extract the NIK using OCR.")
 
@@ -38,7 +45,6 @@ if image is not None:
     img_bytes = img_byte_arr.getvalue()
 
     with st.spinner("🔍 Running OCR..."):
-        model = ocr_predictor(pretrained=True)
         doc = DocumentFile.from_images([img_bytes])
         result = model(doc)
         result_list = result.render().split('\n')
