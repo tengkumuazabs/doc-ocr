@@ -63,8 +63,8 @@ if image is not None:
         if len(nik_clean) == 16:
             st.success("✅ NIK detected! You can edit if needed:")
             nik_value = st.text_input("NIK", value=nik_clean, key="nik_input")
-    else:
-        st.error("❌ NIK field not found in OCR result.")
+        else:
+            st.error("❌ NIK field not found in OCR result.")
 
     with st.expander("🔎 Full OCR Result"):
         st.text("\n".join(result_list))
