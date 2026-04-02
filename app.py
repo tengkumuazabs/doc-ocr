@@ -29,14 +29,14 @@ if uploaded_file:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded KTP", use_container_width=True)
 
-elif url_input:
-    try:
-        response = requests.get(url_input)
-        response.raise_for_status()
-        image = Image.open(io.BytesIO(response.content))
-        st.image(image, caption="Image from URL", use_container_width=True)
-    except Exception as e:
-        st.error(f"❌ Failed to load image from URL: {e}")
+# elif url_input:
+#     try:
+#         response = requests.get(url_input)
+#         response.raise_for_status()
+#         image = Image.open(io.BytesIO(response.content))
+#         st.image(image, caption="Image from URL", use_container_width=True)
+#     except Exception as e:
+#         st.error(f"❌ Failed to load image from URL: {e}")
 
 if image is not None:
     # Convert PIL Image to byte array
