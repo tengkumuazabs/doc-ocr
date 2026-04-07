@@ -31,7 +31,7 @@ Experience the app live here: [Live App](https://doc-ocr.streamlit.app/)
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/doc-ocr.git
+git clone https://github.com/tengkumuazabs/doc-ocr.git
 cd doc-ocr
 ```
 
